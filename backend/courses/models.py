@@ -4,10 +4,10 @@ from django.db import models
 
 class Course(models.Model):
   CATEGORIES = (
-    ('LF','Life skills'),
-    ('CD','Children with disabilities'),
-    ('CA','Creative arts'),
-    ('SP','Sport programs'),
+    ('life skills','Life skills'),
+    ('children with disabilities','Children with disabilities'),
+    ('creative arts','Creative arts'),
+    ('sport programs','Sport programs')
   )
   photo = models.ImageField(upload_to='img',default="",blank=True)
   title = models.CharField(max_length=255)
