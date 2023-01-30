@@ -4,13 +4,14 @@ from django.db import models
 
 class Course(models.Model):
   CATEGORIES = (
-    ('life skills','Life skills'),
-    ('children with disabilities','Children with disabilities'),
-    ('creative arts','Creative arts'),
-    ('sport programs','Sport programs'),
+    ('LF','Life skills'),
+    ('CD','Children with disabilities'),
+    ('CA','Creative arts'),
+    ('SP','Sport programs'),
   )
   photo = models.ImageField(upload_to='img',default="",blank=True)
   title = models.CharField(max_length=255)
+  category = models.CharField(choices=CATEGORIES, default=CATEGORIES[1], max_length=200)
   description = models.CharField(max_length=500)
   content = models.TextField()
   class Meta:
