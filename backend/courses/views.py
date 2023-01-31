@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView
 from rest_framework.filters import SearchFilter,OrderingFilter
 from .models import Course
-from .serializers import CourseSerializer
+from .serializers import CourseSerializer,UserSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from .filters import CourseFilter
 from rest_framework.pagination import PageNumberPagination
@@ -12,6 +12,7 @@ from rest_framework.parsers import MultiPartParser,FormParser,FileUploadParser
 from rest_framework.views import APIView
 from django.http import Http404
 from rest_framework import status
+from rest_framework import generics
 # Create your views here.
 
 
@@ -24,6 +25,16 @@ def getRoutes(request):
         
     }
     return Response(routes)
+
+
+class RegisterView(generics.GenericAPIView):
+    serializer_class = UserSerializer
+    def post(self,request):
+        serializer = UserSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
 
 
 class CourseView(ListCreateAPIView):
