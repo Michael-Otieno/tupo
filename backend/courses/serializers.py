@@ -23,6 +23,14 @@ class UserSerializer(serializers.ModelSerializer):
     return instance
 
 
+class UserLoginSerializer(serializers.ModelSerializer):
+  email = serializers.EmailField(max_length=255)
+  class Meta:
+    model = User
+    fields = ['email','password']
+    
+
+
 class CourseSerializer(serializers.ModelSerializer):
   class Meta:
     model = Course
