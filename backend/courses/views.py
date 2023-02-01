@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView
 from rest_framework.filters import SearchFilter,OrderingFilter
 from .models import Course,User
-from .serializers import CourseSerializer,UserSerializer,UserLoginSerializer
+from .serializers import CourseSerializer,UserSerializer,UserLoginSerializer,UserProfileSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from .filters import CourseFilter
 from rest_framework.pagination import PageNumberPagination
@@ -19,6 +19,7 @@ from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 
 
@@ -112,7 +113,12 @@ class LoginView(generics.GenericAPIView):
         else:
             return Response({'errors':{'non_field_errors':['Email or Password is not Valid']}}, status=status.HTTP_404_NOT_FOUND)
 
-
+class ProfileView(generics.GenericAPIView):
+    serializer_class = UserProfileSerializer
+    permission_classes = [IsAuthenticated]
+    def get(self,request,format=None):
+        serializer = UserProfileSerializer(request.user)
+        return Response(serializer.data,status=status.HTTP_200_OK)
 
 
 class CourseView(ListCreateAPIView):
